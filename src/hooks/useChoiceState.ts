@@ -39,9 +39,8 @@ export const useChoiceState = <TData = unknown, TItem = TData>(
 
   const getIsItemSelected = useCallback(
     (item: TItem) => {
-      const isSelected = !!selectedItems.find(
-        (_item) => getId(_item) === getId(item)
-      );
+      const isSelected =
+        selectedItems.findIndex((_item) => getId(_item) === getId(item)) !== -1;
 
       return isSelected;
     },
