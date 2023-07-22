@@ -2,6 +2,7 @@
 
 import { FC } from "react";
 import { toast } from "react-hot-toast";
+import { Button } from "./Button";
 
 export type CopyButtonProps = {
   text: string;
@@ -23,12 +24,8 @@ export const CopyButton: FC<CopyButtonProps> = ({ text }) => {
   };
 
   return (
-    <button
-      type="button"
-      className="border border-neutral-900 rounded-md py-1 px-4 hover:bg-neutral-900 hover:text-neutral-100 active:outline outline-neutral-400 outline-offset-1"
-      onClick={handleCopy}
-    >
+    <Button type="button" onClick={handleCopy}>
       Copy
-    </button>
+    </Button>
   );
 };
