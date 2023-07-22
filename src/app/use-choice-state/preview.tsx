@@ -7,7 +7,11 @@ export const Preview = () => {
   const [tasks, setTasks] = useState<Task[]>(DEFAULT_TASKS);
   const [newTask, setNewTask] = useState("");
 
-  const choice = useChoiceState(tasks, (task) => task.id);
+  const choice = useChoiceState(
+    tasks,
+    (task) => task.id,
+    (taskId) => taskId
+  );
 
   const handleAddTask = () => {
     setTasks((prev) => [...prev, { id: prev.length + 1, title: newTask }]);
@@ -37,8 +41,8 @@ export const Preview = () => {
             <input
               type="checkbox"
               id={`${task.id}-checkbox`}
-              checked={choice.getIsItemSelected(task)}
-              onChange={(e) => choice.selectById(task, e.target.checked)}
+              checked={choice.getIsItemSelected(task.id)}
+              onChange={(e) => choice.selectById(task.id, e.target.checked)}
             />
             <label
               htmlFor={`${task.id}-checkbox`}
