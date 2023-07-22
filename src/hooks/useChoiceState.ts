@@ -1,7 +1,8 @@
 import { useCallback, useState } from "react";
 
-export const useChoiceState = <TItem = number>(
-  items: TItem[],
+export const useChoiceState = <TData = unknown, TItem = TData>(
+  items: TData[],
+  select: (item: TData) => TItem,
   getId: (item: TItem) => number
 ) => {
   const [selectedItems, setSelectedItems] = useState<TItem[]>([]);
@@ -11,12 +12,12 @@ export const useChoiceState = <TItem = number>(
   const selectAll = useCallback(
     (checked: boolean) => {
       if (checked) {
-        setSelectedItems(items);
+        setSelectedItems(items.map(select));
       } else {
         setSelectedItems([]);
       }
     },
-    [items]
+    [items, select]
   );
 
   const selectById = useCallback(
