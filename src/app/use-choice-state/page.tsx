@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Code } from "@/components/Code";
+import { GITHUB_HOOKS_URL } from "@/lib/constants";
 import { Preview } from "./preview";
 
 export type Task = {
@@ -15,7 +16,11 @@ export default function ChoiceStatePage() {
         back
       </Link>
       <Preview />
-      <Code filepath="src/hooks/useChoiceState.ts" className="my-8" />
+      <Code
+        filepath="src/hooks/useChoiceState.ts"
+        githubLink={`${GITHUB_HOOKS_URL}/useChoiceState.ts`}
+        className="my-8"
+      />
     </div>
   );
 }
