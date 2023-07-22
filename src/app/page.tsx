@@ -5,6 +5,10 @@ const hooks = [
     name: "useChoiceState",
     link: "/use-choice-state",
   },
+  {
+    name: "useProgress",
+    link: "/use-progress",
+  },
 ];
 
 export default function Home() {
