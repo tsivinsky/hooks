@@ -1,6 +1,8 @@
 import { FC } from "react";
 import Link from "next/link";
 import fs from "fs/promises";
+import hljs from "highlight.js";
+import "highlight.js/styles/github.css";
 import { CopyButton } from "./CopyButton";
 import { Button } from "./Button";
 
@@ -26,9 +28,12 @@ export const Code: FC<CodeProps> = async ({
           <Button>View code on GitHub</Button>
         </Link>
       </div>
-      <pre className="bg-neutral-300 p-4 rounded-lg max-h-[500px] overflow-x-auto">
-        {data}
-      </pre>
+      <pre
+        className="bg-neutral-300 p-4 rounded-lg max-h-[500px] overflow-x-auto"
+        dangerouslySetInnerHTML={{
+          __html: hljs.highlight(data, { language: "ts" }).value,
+        }}
+      />
     </div>
   );
 };
