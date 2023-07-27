@@ -16,8 +16,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en">
-      <body className={clsx(inter.className, "min-h-screen flex flex-col")}>
-        <Toaster />
+      <body
+        className={clsx(
+          inter.className,
+          "min-h-screen flex flex-col bg-neutral-800"
+        )}
+      >
+        <Toaster
+          toastOptions={{ className: "!bg-neutral-700 !text-neutral-100" }}
+        />
         <Header />
         <main className="flex-1 max-w-screen-2xl mx-auto w-full px-2">
           {children}

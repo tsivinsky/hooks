@@ -21,7 +21,7 @@ export const Preview = () => {
   return (
     <div className="my-4">
       <h2 className="text-3xl font-semibold">Preview</h2>
-      <pre className="my-2 bg-neutral-300 rounded-md p-2">
+      <pre className="my-2 bg-neutral-900 rounded-md p-2">
         {JSON.stringify({ selectedItems: choice.selectedItems })}
       </pre>
       <div className="flex gap-2 py-2 px-1 border-b-2">

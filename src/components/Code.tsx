@@ -29,7 +29,7 @@ export const Code: FC<CodeProps> = async ({
         </Link>
       </div>
       <pre
-        className="bg-neutral-300 p-4 rounded-lg max-h-[500px] overflow-x-auto"
+        className="bg-neutral-900 p-4 rounded-lg max-h-[500px] overflow-x-auto"
         dangerouslySetInnerHTML={{
           __html: hljs.highlight(data, { language: "ts" }).value,
         }}
