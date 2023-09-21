@@ -9,6 +9,10 @@ const hooks = [
     name: "useProgress",
     link: "/use-progress",
   },
+  {
+    name: "useSelectArray",
+    link: "/use-select-array",
+  },
 ];
 
 export default function Home() {
