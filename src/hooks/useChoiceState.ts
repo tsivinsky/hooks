@@ -1,37 +1,51 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+
+export type UseChoiceStateOptions<TData = unknown, TItem = TData> = {
+  select: (item: TData) => TItem;
+  getId: (item: TItem) => number;
+  shouldSelect: (item: TData) => boolean;
+};
 
 export const useChoiceState = <TData = unknown, TItem = TData>(
   items: TData[],
-  select: (item: TData) => TItem,
-  getId: (item: TItem) => number
+  { select, shouldSelect, getId }: UseChoiceStateOptions<TData, TItem>
 ) => {
-  const [selectedItems, setSelectedItems] = useState<TItem[]>([]);
+  const selectRef = useRef(select);
+  const getIdRef = useRef(getId);
+  const shouldSelectRef = useRef(shouldSelect);
 
-  const areAllItemsSelected = selectedItems.length === items.length;
+  const [selectedItems, setSelectedItems] = useState<TData[]>([]);
+
+  const selectedItemIds = selectedItems.map(selectRef.current);
+  const areAllItemsSelected =
+    selectedItems.length === items.filter(shouldSelectRef.current).length;
 
   const selectAll = useCallback(
     (checked: boolean) => {
       if (checked) {
-        setSelectedItems(items.map(select));
+        setSelectedItems(items.filter(shouldSelectRef.current));
       } else {
         setSelectedItems([]);
       }
     },
-    [items, select]
+    [items]
   );
 
-  const selectById = useCallback(
-    (item: TItem, checked: boolean) => {
-      const id = getId(item);
+  const selectById = useCallback((item: TData, checked: boolean) => {
+    const id = getIdRef.current(selectRef.current(item));
 
-      if (checked) {
-        setSelectedItems((prev) => [...prev, item]);
-      } else {
-        setSelectedItems((prev) => prev.filter((_item) => getId(_item) !== id));
-      }
-    },
-    [getId]
-  );
+    if (!shouldSelectRef.current(item)) return;
+
+    if (checked) {
+      setSelectedItems((prev) => [...prev, item]);
+    } else {
+      setSelectedItems((prev) =>
+        prev.filter(
+          (_item) => getIdRef.current(selectRef.current(_item)) !== id
+        )
+      );
+    }
+  }, []);
 
   const clearSelectedItems = useCallback(() => {
     setSelectedItems([]);
@@ -40,14 +54,19 @@ export const useChoiceState = <TData = unknown, TItem = TData>(
   const getIsItemSelected = useCallback(
     (item: TItem) => {
       const isSelected =
-        selectedItems.findIndex((_item) => getId(_item) === getId(item)) !== -1;
+        selectedItems.findIndex(
+          (_item) =>
+            getIdRef.current(selectRef.current(_item)) ===
+            getIdRef.current(item)
+        ) !== -1;
 
       return isSelected;
     },
-    [selectedItems, getId]
+    [selectedItems]
   );
 
   return {
+    selectedItemIds,
     selectedItems,
     areAllItemsSelected,
     selectAll,

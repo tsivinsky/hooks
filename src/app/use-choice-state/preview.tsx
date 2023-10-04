@@ -2,19 +2,23 @@
 import { useState } from "react";
 import { useChoiceState } from "@/hooks/useChoiceState";
 import { Task } from "./page";
+import clsx from "clsx";
 
 export const Preview = () => {
   const [tasks, setTasks] = useState<Task[]>(DEFAULT_TASKS);
   const [newTask, setNewTask] = useState("");
 
-  const choice = useChoiceState(
-    tasks,
-    (task) => task.id,
-    (taskId) => taskId
-  );
+  const choice = useChoiceState(tasks, {
+    select: (task) => task.id,
+    getId: (taskId) => taskId,
+    shouldSelect: (task) => !task.disabled,
+  });
 
   const handleAddTask = () => {
-    setTasks((prev) => [...prev, { id: prev.length + 1, title: newTask }]);
+    setTasks((prev) => [
+      ...prev,
+      { id: prev.length + 1, title: newTask, disabled: Math.random() < 0.5 },
+    ]);
     setNewTask("");
   };
 
@@ -40,16 +44,24 @@ export const Preview = () => {
       </div>
       <div>
         {tasks.map((task) => (
-          <div key={task.id} className="flex gap-2 py-2 px-1">
+          <div
+            key={task.id}
+            className={clsx("flex gap-2 py-2 px-1", {
+              "opacity-50": task.disabled,
+            })}
+          >
             <input
               type="checkbox"
               id={`${task.id}-checkbox`}
+              disabled={task.disabled}
               checked={choice.getIsItemSelected(task.id)}
-              onChange={(e) => choice.selectById(task.id, e.target.checked)}
+              onChange={(e) => choice.selectById(task, e.target.checked)}
             />
             <label
               htmlFor={`${task.id}-checkbox`}
-              className="font-medium cursor-pointer select-none"
+              className={clsx("font-medium select-none", {
+                "cursor-pointer": !task.disabled,
+              })}
             >
               {task.title}
             </label>
@@ -72,25 +84,31 @@ const DEFAULT_TASKS: Task[] = [
   {
     id: 0,
     title: "Task 1",
+    disabled: true,
   },
   {
     id: 1,
     title: "Task 2",
+    disabled: false,
   },
   {
     id: 2,
     title: "Task 3",
+    disabled: false,
   },
   {
     id: 3,
     title: "Task 4",
+    disabled: true,
   },
   {
     id: 4,
     title: "Task 5",
+    disabled: true,
   },
   {
     id: 5,
     title: "Task 6",
+    disabled: false,
   },
 ];
