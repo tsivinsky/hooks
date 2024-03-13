@@ -4,6 +4,7 @@ import { FC } from "react";
 import { StepperProvider, useStepper } from "@/hooks/useStepper";
 import { Step } from "./step";
 import { Button } from "@/components/Button";
+import { PagePreview } from "@/components/PagePreview";
 
 const components = [Step, Step, Step, Step, Step];
 
@@ -19,8 +20,7 @@ export const Preview: FC = () => {
   const Step = components[stepper.active];
 
   return (
-    <div className="my-4">
-      <h2 className="text-3xl font-semibold">Preview</h2>
+    <PagePreview>
       <StepperProvider state={stepper}>
         <Step />
       </StepperProvider>
@@ -32,6 +32,6 @@ export const Preview: FC = () => {
           Next step
         </Button>
       </div>
-    </div>
+    </PagePreview>
   );
 };

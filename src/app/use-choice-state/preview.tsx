@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useChoiceState } from "@/hooks/useChoiceState";
 import { Task } from "./page";
 import clsx from "clsx";
+import { PagePreview } from "@/components/PagePreview";
 
 export const Preview = () => {
   const [tasks, setTasks] = useState<Task[]>(DEFAULT_TASKS);
@@ -23,8 +24,7 @@ export const Preview = () => {
   };
 
   return (
-    <div className="my-4">
-      <h2 className="text-3xl font-semibold">Preview</h2>
+    <PagePreview>
       <pre className="my-2 bg-neutral-900 rounded-md p-2">
         {JSON.stringify({ selectedItems: choice.selectedItems })}
       </pre>
@@ -76,7 +76,7 @@ export const Preview = () => {
         onChange={(e) => setNewTask(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleAddTask()}
       />
-    </div>
+    </PagePreview>
   );
 };
 

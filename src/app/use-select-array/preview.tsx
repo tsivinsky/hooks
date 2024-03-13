@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/Button";
+import { PagePreview } from "@/components/PagePreview";
 import { useSelectArray } from "@/hooks/useSelectArray";
 import { useState } from "react";
 
@@ -20,14 +21,14 @@ const defaultItems = [
 export const Preview = () => {
   const [items, setItems] = useState(defaultItems);
 
-  const list = useSelectArray<typeof items[number]>(
+  const list = useSelectArray<(typeof items)[number]>(
     (item) => item,
     FirstChoice,
     items
   );
 
   return (
-    <div className="my-4">
+    <PagePreview>
       <div className="flex items-center gap-2">
         <Button
           className="my-2"
@@ -44,6 +45,6 @@ export const Preview = () => {
       </div>
       <h2>List</h2>
       <pre className="whitespace-pre-wrap">{JSON.stringify(list)}</pre>
-    </div>
+    </PagePreview>
   );
 };

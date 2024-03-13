@@ -1,14 +1,14 @@
 "use client";
 
 import { Button } from "@/components/Button";
+import { PagePreview } from "@/components/PagePreview";
 import { useProgress } from "@/hooks/useProgress";
 
 export const Preview = () => {
   const progress = useProgress();
 
   return (
-    <div className="my-4">
-      <h2 className="text-3xl font-semibold">Preview</h2>
+    <PagePreview>
       <div className="my-2">
         <progress
           value={progress.value}
@@ -20,6 +20,6 @@ export const Preview = () => {
         <Button onClick={progress.start}>Start</Button>
         <Button onClick={progress.reset}>Reset</Button>
       </div>
-    </div>
+    </PagePreview>
   );
 };
