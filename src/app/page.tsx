@@ -1,25 +1,23 @@
+import fs from "fs/promises";
 import Link from "next/link";
 
-const hooks = [
-  {
-    name: "useChoiceState",
-    link: "/use-choice-state",
-  },
-  {
-    name: "useProgress",
-    link: "/use-progress",
-  },
-  {
-    name: "useSelectArray",
-    link: "/use-select-array",
-  },
-  {
-    name: "useStepper",
-    link: "/use-stepper",
-  },
-];
+const kebabize = (str: string) =>
+  str.replace(
+    /[A-Z]+(?![a-z])|[A-Z]/g,
+    ($, ofs) => (ofs ? "-" : "") + $.toLowerCase()
+  );
 
-export default function Home() {
+export default async function Home() {
+  const files = await fs.readdir("src/hooks");
+
+  const hooks = files.map((file) => {
+    const base = file.replace(/\.[^/.]+$/, "");
+    return {
+      name: base,
+      link: `/${kebabize(base)}`,
+    };
+  });
+
   return (
     <div>
       <h1>React hooks</h1>
