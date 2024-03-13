@@ -13,6 +13,10 @@ const hooks = [
     name: "useSelectArray",
     link: "/use-select-array",
   },
+  {
+    name: "useStepper",
+    link: "/use-stepper",
+  },
 ];
 
 export default function Home() {
